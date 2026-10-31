@@ -30,3 +30,10 @@ client-preference selection instead, this is the wrong library.
 returning null — a malformed ALPN list signals a parsing bug upstream that
 should surface loudly. `pickProtocol` returns the fallback verbatim, including
 an empty string, so the caller controls fallback semantics entirely.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
